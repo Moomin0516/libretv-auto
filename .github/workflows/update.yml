@@ -1,0 +1,36 @@
+name: 更新LibreTV源
+on:
+  schedule:
+    # cron: 分 时 日 月 星期 (UTC时间！！)
+    # 北京时间早上10点 → UTC 02:00，写 0 2 * * *
+    - cron: '0 2 * * *'
+  workflow_dispatch: # 开启手动运行按钮，调试用
+
+permissions:
+  contents: write # 必须开启，允许action提交修改文件
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 设置Python环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装依赖requests
+        run: pip install requests
+
+      - name: 执行转换脚本
+        run: python convert.py
+
+      - name: 提交更新json文件
+        run: |
+          git config user.name "github‑actions[bot]"
+          git config user.email "github‑actions[bot]@users.noreply.github.com"
+          git add libretv-sources.json
+          git commit -m "auto update sources" || echo "内容无变化跳过提交"
+          git push
