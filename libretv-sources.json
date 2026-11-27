@@ -1,0 +1,12 @@
+{
+  "name": "Ziyuanzu自动更新源",
+  "version": 2,
+  "sources": [],
+  "liveSources": [
+    {
+      "name": "国内IPTV",
+      "url": "https://iptv.whaleclouds.com/iptv.m3u",
+      "epg": "https://epg.whaleclouds.com/epg.xml.gz"
+    }
+  ]
+}
